@@ -13,7 +13,6 @@ __pycache__
 *.gz
 *PKG-INFO
 *.egg-info
-*.csv
 *.zip
 mlruns
 *.sqlite
@@ -33,9 +32,6 @@ venv/
 ENV/
 .python-version
 .env.yaml
-
-# Data
-data/
 
 # Models
 models/

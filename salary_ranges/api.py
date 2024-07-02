@@ -1,49 +1,19 @@
-import tensorflow as tf
+import os
 from fastapi import FastAPI
-from transformers import AutoTokenizer, TFAutoModel
-
+from salary_ranges.registry import load_model, preprocess_data
 app = FastAPI()
+model = load_model()
 
 @app.get("/")
 def index():
     return {"ok": True}
 
-model_path = "../models/model.keras"
-
-model = tf.keras.load_model(model_path)
-base_model_type = "deepset/gbert-base"
-
-tokenizer = AutoTokenizer.from_pretrained(base_model_type, padding="right")
-
-def preprocess_data(input:str):
-    """Tokenizes and encodes input text.
-
-    Parameters
-    ----------
-    input : str
-        Text to encode
-
-    Returns
-    -------
-    input_ids
-    attention_mask
-    """
-    encodings = tokenizer(
-        input,
-        max_length=512,
-        truncation=True,
-        padding="max_length",
-        return_tensors="tf"
-        )
-
-    input_ids = encodings["input_ids"]
-    attention_mask = encodings["attention_mask"]
-
-    return input_ids, attention_mask
-
 @app.get("/predict")
 def predict(input:str):
+
     input_ids, attention_mask = preprocess_data(input)
     y_pred = model.predict([input_ids, attention_mask])
+    range_min = int(round(y_pred[0][0] / 1000))
+    range_max = int(round(y_pred[0][1] / 1000))
 
-    return y_pred
+    return {"range_min": range_min, "range_max": range_max}

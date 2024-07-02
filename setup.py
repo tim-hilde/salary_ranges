@@ -6,7 +6,7 @@ with open("requirements.txt") as f:
 requirements = [x.strip() for x in content if "git+" not in x]
 
 setup(name="salary_ranges",
-      version="0.0.1",
+      version="0.0.2",
       description="Predicting salary ranges of data science jobs based on their job posting.",
       license="MIT",
       author="Tim Hildebrandt",

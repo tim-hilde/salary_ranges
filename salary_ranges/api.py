@@ -1,6 +1,6 @@
-import os
 from fastapi import FastAPI
 from salary_ranges.registry import load_model, preprocess_data
+
 app = FastAPI()
 model = load_model()
 
@@ -11,8 +11,8 @@ def index():
 @app.get("/predict")
 def predict(input:str):
 
-    input_ids, attention_mask = preprocess_data(input)
-    y_pred = model.predict([input_ids, attention_mask])
+    emb = preprocess_data(input)
+    y_pred = model.predict(emb)
     range_min = int(round(y_pred[0][0] / 1000))
     range_max = int(round(y_pred[0][1] / 1000))
 

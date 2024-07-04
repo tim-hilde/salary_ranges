@@ -5,3 +5,4 @@ tensorflow-metal; sys_platform == "darwin" and "ARM" in platform_version
 transformers
 fastapi
 uvicorn
+torch

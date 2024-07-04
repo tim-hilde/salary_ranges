@@ -4,8 +4,9 @@ COPY models/base_line.keras /models/base_line.keras
 COPY salary_ranges /salary_ranges
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
-RUN apt-get update \
-     && apt install -y \
+RUN apt-get update -y
+RUN apt-get dist-upgrade -y
+RUN apt install -y \
         build-essential \
         python3-dev \
         pkg-config \

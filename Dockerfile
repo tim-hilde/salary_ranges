@@ -1,10 +1,10 @@
 FROM python:3.10.6-buster
 
-COPY models /models
+COPY models/base_line.keras /models/base_line.keras
 COPY salary_ranges /salary_ranges
 COPY requirements.txt requirements.txt
 COPY setup.py setup.py
-RUN apt update \
+RUN apt-get update \
      && apt install -y \
         build-essential \
         python3-dev \
@@ -22,7 +22,7 @@ RUN apt update \
         libhdf5-dev \
         npm
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install .
 
 CMD uvicorn salary_ranges.api:app --host 0.0.0.0 --port $PORT
